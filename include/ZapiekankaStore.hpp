@@ -21,14 +21,14 @@ public:
             return 0;
 
         unsigned int price = m_delvery_price;
-        for (int i=0; i<m_zapiekanki.size(); i++)
+        for (size_t i=0; i<m_zapiekanki.size(); i++)
             price += m_n_zapiekanki[i]*m_zapiekanki[i].getPrice();
         return price;
     }
 
     std::vector<Zapiekanka> getOrderInfo() const {
         std::vector<Zapiekanka> zapiekanki;
-        for (int i=0; i<m_n_zapiekanki.size(); i++) {
+        for (size_t i=0; i<m_n_zapiekanki.size(); i++) {
             for (int j=0; j < m_n_zapiekanki[i]; j++)
                 zapiekanki.push_back(m_zapiekanki[i]);
         }
@@ -54,7 +54,7 @@ protected:
         std::cout << "\tName      \t\tPrice\n"
                      "_____________________________________________\n";
 
-        for (int i=0; i<m_zapiekanki.size(); i++) {
+        for (size_t i=0; i<m_zapiekanki.size(); i++) {
             const Zapiekanka *p = &m_zapiekanki[i];
             int num = m_n_zapiekanki[i];
 

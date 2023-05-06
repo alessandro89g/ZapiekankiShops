@@ -1,11 +1,10 @@
 #include <iostream>
 #include <memory>
+
 #include "Director.hpp"
 #include "Zapiekanka.hpp"
 #include "WolnicaStore.hpp"
 #include "PlacNowyStore.hpp"
-
-using namespace std;
 
 int main() {
     std::unique_ptr<ZapiekankaStore> store;

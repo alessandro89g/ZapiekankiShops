@@ -24,8 +24,8 @@ public:
     virtual ~ZapiekankaOption () {}
 
 protected:
-    unsigned int m_price;
     std::string m_name;
+    unsigned int m_price;
 
 };
 

@@ -15,10 +15,10 @@ public:
     int newOrder () override {
         m_zapiekanki.clear();
         m_n_zapiekanki.clear();
-        int answer;
+        size_t answer;
         do {
             std::cout << "Choose your zapiekanka:\n";
-            for (int i=0; i<m_zapiekanki_available.size(); i++) {
+            for (size_t i=0; i<m_zapiekanki_available.size(); i++) {
                 std::cout << "\t " << std::to_string(i+1) << ") " << m_zapiekanki_available[i] << "\n";
             }
             std::cout << "Insert the number or press 0 to finish your order: ";

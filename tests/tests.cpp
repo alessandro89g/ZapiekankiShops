@@ -9,6 +9,8 @@
 
 using namespace std;
 
+const int base_price = 15;
+
 TEST(ZAPIEKANKAFACTORY, PEPPERONI) {
     ZapiekankaFactory& store = ZapiekankaFactory::getInstance();
     ZakopaneZapiekanka zakopane= *static_cast<ZakopaneZapiekanka*>
@@ -20,7 +22,6 @@ TEST(ZAPIEKANKAFACTORY, PEPPERONI) {
     Topping topping1 = BoczekTopping();
     Topping topping2 = OlivesTopping();
 
-    const int base_price = 15;
     int price = base_price + dough.getPrice() + cheese.getPrice() + sauce.getPrice()
             + topping1.getPrice() + topping2.getPrice();
 
@@ -37,7 +38,6 @@ TEST(ZAPIEKANKAFACTORY, CHEESE_ZAPIEKANKA) {
     Cheese cheese = GoudaCheese();
     Sauce sauce = MarinaraSauce();
 
-    const int base_price = 15;
     int price = base_price + dough.getPrice() + cheese.getPrice() + sauce.getPrice();
 
     ASSERT_EQ(price, zakopane.getPrice());
@@ -52,7 +52,6 @@ TEST(PLACNOWYSTORE, CHEESE) {
     Cheese cheese = GoudaCheese();
     Sauce sauce = MarinaraSauce();
 
-    const int base_price = 15;
     int price = base_price + dough.getPrice() + cheese.getPrice() + sauce.getPrice();
 
     ASSERT_EQ(price, zapiekanka.value().getPrice());
@@ -64,7 +63,7 @@ TEST(PLACNOWYSTORE, PEPPERONI) {
     unique_ptr<ZapiekankaStore> store = make_unique<PlacNowyStore>();
     optional<Zapiekanka> zapiekanka = store.get()->orderZapiekanka("Zakopane");
 
-    ASSERT_EQ(false, zapiekanka.has_value());
+    ASSERT_FALSE(zapiekanka.has_value());
 }
 
 TEST(PLACNOWYSTORE, RETRIEVE_ORDER) {
@@ -81,7 +80,7 @@ TEST(PLACNOWYSTORE, RETRIEVE_ORDER) {
 
     vector<string> zapiekanka_names = {"Cheese", "Cheese", "Cheese"};
 
-    for(int i=0; i<zapiekanki.size(); i++)
+    for(size_t i=0; i<zapiekanki.size(); i++)
         ASSERT_EQ(zapiekanka_names[i], order[i].getName());
 
 }
@@ -98,7 +97,6 @@ TEST(WOLNICASTORE, PEPPERONI) {
     Topping topping1 = BoczekTopping();
     Topping topping2 = OlivesTopping();
 
-    const int base_price = 15;
     int price = base_price + dough.getPrice() + cheese.getPrice() + sauce.getPrice()
                 + topping1.getPrice() + topping2.getPrice();
 
@@ -109,7 +107,7 @@ TEST(WOLNICASTORE, PEPPERONI) {
 TEST(WOLNICASTORE, CHEESE) {
     unique_ptr<ZapiekankaStore> store = make_unique<WolnicaStore>();
     optional<Zapiekanka> zapiekanka = store.get()->orderZapiekanka("Cheese");
-    ASSERT_EQ(false, zapiekanka.has_value());
+    ASSERT_FALSE(zapiekanka.has_value());
 }
 
 TEST(WOLNICASTORE, RETRIEVE_ORDER) {
@@ -126,7 +124,7 @@ TEST(WOLNICASTORE, RETRIEVE_ORDER) {
 
     vector<string> zapiekanka_names = {"Zakopane", "Zakopane", "Zakopane"};
 
-    for(int i=0; i<zapiekanki.size(); i++)
+    for(size_t i=0; i<zapiekanki.size(); i++)
         ASSERT_EQ(zapiekanka_names[i], order[i].getName());
 
 }

@@ -53,7 +53,6 @@ public:
 
 protected:
     void buildDough(const Dough& d) override {
-        std::cout << zapiekanka << std::endl;
         dynamic_cast<CustomZapiekanka *>(zapiekanka)->setDough(d);
     }
     void buildSauce(const Sauce& s) override {
