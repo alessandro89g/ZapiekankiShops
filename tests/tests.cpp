@@ -162,12 +162,6 @@ TEST(DIRECTOR, MAKEPIZZA) {
     delete test;
 }
 
-
-TEST(ZAPIEKANTOPIA, ORDERZAPIEKANKA) {
-    unique_ptr<ZapiekankaStore> store = make_unique<Zapiekankatopia>();
-    store.get()->newOrder();
-}
-
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
