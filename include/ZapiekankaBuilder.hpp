@@ -67,34 +67,4 @@ protected:
 };
 
 
-
-class ItalianZapiekankaBuilder : public ZapiekankaBuilder {
-public:
-    ItalianZapiekankaBuilder() {
-        zapiekanka = new Zapiekanka();
-    }
-
-    void buildZapiekanka(const std::vector<std::unique_ptr<ZapiekankaOption> > &) override {
-        buildDough(ThinCrustDough());
-        buildSauce(MarinaraSauce());
-        buildCheese(MozzarellaCheese());
-        buildTopping(SalamiTopping());
-        buildTopping(OlivesTopping());
-    }
-
-protected:
-    void buildDough(const Dough& d) override {
-        dynamic_cast<CustomZapiekanka *>(zapiekanka)->setDough(d);
-    }
-    void buildSauce(const Sauce& s) override {
-        dynamic_cast<CustomZapiekanka *>(zapiekanka)->setSauce(s);
-    }
-    void buildCheese(const Cheese& c) override {
-        dynamic_cast<CustomZapiekanka *>(zapiekanka)->setCheese(c);
-    }
-    void buildTopping(const Topping& t) override {
-        dynamic_cast<CustomZapiekanka *>(zapiekanka)->addTopping(t);
-    }
-};
-
 #endif // ZAPIEKANKABUILDER_H
