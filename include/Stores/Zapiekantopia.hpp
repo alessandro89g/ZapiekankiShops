@@ -1,87 +1,44 @@
-#ifndef PLACNOWYSTORE_HPP
-#define PLACNOWYSTORE_HPP
+#ifndef ZAPIEKANKATOPIA_HPP
+#define ZAPIEKANKATOPIA_HPP
 
 #include "ZapiekankaStore.hpp"
+#include "Director.hpp"
 
-class PlacNowyStore : public ZapiekankaStore {
+class Zapiekankatopia : public ZapiekankaStore {
 public:
-    PlacNowyStore() {
-        m_zapiekanki_available = {"Cheese", "Custom"};
-        std::cout << "Plac Nowy Zapiekanka.\n\n";
+    Zapiekankatopia() : m_director(Director())
+    {
+        std::cout << "Zapiekankatopia.\n\n";
         std::cout << "Here you can order the best cheese zapiekanka or create your own zapiekanka.\n";
-        m_delvery_price = 4;
+        m_delvery_price = 2;
     }
 
     int newOrder () override {
         m_zapiekanki.clear();
         m_n_zapiekanki.clear();
-        int answer;
+        size_t answer;
         do {
-            std::cout << "Choose your zapiekanka:\n";
-            for (int i=0; i<m_zapiekanki_available.size(); i++) {
-                std::cout << "\t " << std::to_string(i+1) << ") " << m_zapiekanki_available[i] << "\n";
-            }
-            std::cout << "Insert the number or press 0 to finish your order: ";
+            std::cout << "Press 1 to build your (or another) zapiekanka or press 0 to finish your order: ";
             std::cin >> answer;
-            switch (answer) {
-            case 1:
-                orderZapiekanka("Cheese");
-                break;
-            case 2:
-                orderZapiekanka("Custom");
-                break;
-            default:
-                break;
-            }
-        } while(answer<=m_zapiekanki_available.size() && answer >=1);
+            if (answer==1)
+                orderZapiekanka();
+        } while(answer==1);
         showOrder();
         return m_n_zapiekanki.size();
     }
 
-    std::optional<Zapiekanka> orderZapiekanka(std::string type) override {
+    std::optional<Zapiekanka> orderZapiekanka(std::string type="Custom") override {
+        std::vector<std::unique_ptr<ZapiekankaOption>> ingredients;
+        ingredients.emplace_back(chooseDough());
+        ingredients.emplace_back(chooseSauce());
+        ingredients.emplace_back(chooseCheese());
+        for (std::unique_ptr<Topping>& t: chooseToppings())
+            ingredients.emplace_back(t.release());
+
         std::unique_ptr<Zapiekanka> zapiekanka;
-        std::optional<std::unique_ptr<Zapiekanka>> zapiekanka_opt
-            = ZapiekankaFactory::CreateZapiekanka(type);
-        if (!zapiekanka_opt.has_value())
-            return std::nullopt;
-
-        if (type == "Custom") {
-            std::unique_ptr<CustomZapiekanka> custom_zapiekanka
-                = std::unique_ptr<CustomZapiekanka>{static_cast<CustomZapiekanka*>(zapiekanka_opt.value().release())};
-
-            std::cout << "Choose one of the following toppings:\n"
-                         "\t 1) Olives\n"
-                         "\t 2) Mushrooms\n"
-                         "\t 3) Both\n"
-                         "Insert the corresponding number: ";
-            custom_zapiekanka->setCheese(OscypekCheese());
-            custom_zapiekanka->setDough(ThickCrustDough());
-            custom_zapiekanka->setSauce(PlumTomatoSauce());
-            int n;
-            std::cin>>n;
-            switch (n) {
-            case 1:
-                custom_zapiekanka->addTopping(OlivesTopping());
-                break;
-            case 2:
-                custom_zapiekanka->addTopping(MushroomsTopping());
-                break;
-            case 3:
-                custom_zapiekanka->addTopping(OlivesTopping()).addTopping(MushroomsTopping());
-                break;
-            default:
-                std::cout << "You chose no toppings\n";
-                break;
-            }
-            zapiekanka = std::move(custom_zapiekanka);
-        }
-        else if (type=="Cheese") {
-            zapiekanka = std::move(zapiekanka_opt.value());
-        }
-        else {
-            std::cout << "Sorry, we do not have that zapiekanka!\n";
-            return std::nullopt;
-        }
+        CustomZapiekankaBuilder builder;
+        Zapiekanka *za = m_director.makeCustomZapiekanka(builder,ingredients);
+        zapiekanka = std::make_unique<Zapiekanka>(*za);
 
         auto pos = std::find(m_zapiekanki.begin(),m_zapiekanki.end(), *zapiekanka);
         if (pos==m_zapiekanki.end()){
@@ -91,12 +48,88 @@ public:
         else {
             m_n_zapiekanki[std::distance(m_zapiekanki.begin(),pos)]++;
         }
+
         std::cout << "\n\n"
                      "Ordered\n" << m_zapiekanki.back().info() << "\n\n";
         std::cout << "Total to pay: " << getOrderPrice() << "$ (" << m_delvery_price << " $ delivery).\n\n";
         saveStatusOrder();
         return *zapiekanka;
     }
+
+private:
+    std::unique_ptr<Dough> chooseDough() {
+        int answer;
+        do {
+            std::cout << "---->Choose your dough\n"
+                         "\t 1) Thin\n"
+                         "\t 2) Thick\n";
+            std::cout << "Choose your option: ";
+            std::cin >> answer;
+            if (answer==1)
+                return std::make_unique<ThinCrustDough>();
+            else if (answer==2)
+                return std::make_unique<ThickCrustDough>();
+        } while(answer!=1 && answer != 2);
+        return nullptr;
+    }
+    std::unique_ptr<Sauce> chooseSauce() {
+        int answer;
+        do {
+            std::cout << "---->Choose your sauce\n"
+                         "\t 1) Marinara\n"
+                         "\t 2) Plum Tomato\n";
+            std::cout << "Choose your option: ";
+            std::cin >> answer;
+            if (answer==1)
+                return std::make_unique<MarinaraSauce>();
+            else if (answer==2)
+                return std::make_unique<PlumTomatoSauce>();
+        } while(answer!=1 && answer != 2);
+        return nullptr;
+    }
+    std::unique_ptr<Cheese> chooseCheese() {
+        int answer;
+        do {
+            std::cout << "---->Choose your cheese\n"
+                         "\t 1) Oscypek\n"
+                         "\t 2) Gouda\n"
+                         "\t 3) Mozzarella\n";
+            std::cout << "Choose your option: ";
+            std::cin >> answer;
+            if (answer==1)
+                return std::make_unique<OscypekCheese>();
+            else if (answer==2)
+                return std::make_unique<GoudaCheese>();
+            else if (answer==3)
+                return std::make_unique<MozzarellaCheese>();
+        } while( answer<1 || answer > 3);
+        return nullptr;
+    }
+    std::vector<std::unique_ptr<Topping>> chooseToppings() {
+        std::vector<std::unique_ptr<Topping>> toppings;
+        int answer;
+            do {
+                std::cout << "---->Choose your toppings (you can add more of the same type)\n"
+                             "\t 1) Mushrooms\n"
+                             "\t 2) Olives\n"
+                             "\t 3) Mozzarella\n"
+                             "\t 4) Salami\n";
+                std::cout << "Choose your option (if you want no more toppings, press 0): ";
+                std::cin >> answer;
+                if (answer==1)
+                    toppings.emplace_back(std::make_unique<MushroomsTopping>());
+                else if (answer==2)
+                    toppings.emplace_back(std::make_unique<OlivesTopping>());
+                else if (answer==3)
+                    toppings.emplace_back(std::make_unique<BoczekTopping>());
+                else if (answer==4)
+                    toppings.emplace_back(std::make_unique<SalamiTopping>());
+            } while( answer>0 && answer < 5);
+        return toppings;
+    }
+
+private:
+    Director m_director;
 };
 
-#endif // PLACNOWYSTORE_HPP
+#endif // ZAPIEKANKATOPIA_HPP

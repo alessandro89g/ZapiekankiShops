@@ -6,15 +6,15 @@
 #include "PlacNowyStore.hpp"
 #include "WolnicaStore.hpp"
 #include "Director.hpp"
+#include "Zapiekantopia.hpp"
 
 using namespace std;
 
 const int base_price = 15;
 
 TEST(ZAPIEKANKAFACTORY, PEPPERONI) {
-    ZapiekankaFactory& store = ZapiekankaFactory::getInstance();
     ZakopaneZapiekanka zakopane= *static_cast<ZakopaneZapiekanka*>
-        (store.CreateZapiekanka("Zakopane").value().get());
+                                  (ZapiekankaFactory::CreateZapiekanka("Zakopane").value().get());
 
     Dough dough = ThinCrustDough();
     Cheese cheese = OscypekCheese();
@@ -30,9 +30,8 @@ TEST(ZAPIEKANKAFACTORY, PEPPERONI) {
 }
 
 TEST(ZAPIEKANKAFACTORY, CHEESE_ZAPIEKANKA) {
-    ZapiekankaFactory& store = ZapiekankaFactory::getInstance();
     CheeseZapiekanka zakopane= *static_cast<CheeseZapiekanka*>
-                               (store.CreateZapiekanka("Cheese").value().get());
+                                (ZapiekankaFactory::CreateZapiekanka("Cheese").value().get());
 
     Dough dough = ThickCrustDough();
     Cheese cheese = GoudaCheese();
@@ -161,6 +160,12 @@ TEST(DIRECTOR, MAKEPIZZA) {
 
     delete zapiekanka;
     delete test;
+}
+
+
+TEST(ZAPIEKANTOPIA, ORDERZAPIEKANKA) {
+    unique_ptr<ZapiekankaStore> store = make_unique<Zapiekankatopia>();
+    store.get()->newOrder();
 }
 
 int main(int argc, char **argv) {
