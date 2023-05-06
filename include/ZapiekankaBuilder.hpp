@@ -12,8 +12,8 @@
 class ZapiekankaBuilder {
 public:
     virtual void buildZapiekanka(const std::vector<std::unique_ptr<ZapiekankaOption>>& ) = 0;
-    Zapiekanka* getZapiekanka() {
-        return zapiekanka;
+    std::unique_ptr<Zapiekanka> getZapiekanka() {
+        return std::make_unique<Zapiekanka>(*zapiekanka);
     }
     virtual ~ZapiekankaBuilder () {
     }
@@ -23,14 +23,13 @@ protected:
     virtual void buildSauce(const Sauce& s) = 0;
     virtual void buildCheese(const Cheese& c) = 0;
     virtual void buildTopping(const Topping& t) = 0;
-    Zapiekanka* zapiekanka;
+    std::unique_ptr<Zapiekanka> zapiekanka;
 };
 
 class CustomZapiekankaBuilder : public ZapiekankaBuilder {
 public:
     CustomZapiekankaBuilder() {
-        zapiekanka = dynamic_cast<CustomZapiekanka *>
-            (ZapiekankaFactory::CreateZapiekanka("Custom").value().release());
+        zapiekanka = std::move(ZapiekankaFactory::CreateZapiekanka("Custom").value());
     }
 
     void buildZapiekanka(const std::vector<std::unique_ptr<ZapiekankaOption>>& ingredients) override
@@ -53,16 +52,16 @@ public:
 
 protected:
     void buildDough(const Dough& d) override {
-        dynamic_cast<CustomZapiekanka *>(zapiekanka)->setDough(d);
+        dynamic_cast<CustomZapiekanka *>(zapiekanka.get())->setDough(d);
     }
     void buildSauce(const Sauce& s) override {
-        dynamic_cast<CustomZapiekanka *>(zapiekanka)->setSauce(s);
+        dynamic_cast<CustomZapiekanka *>(zapiekanka.get())->setSauce(s);
     }
     void buildCheese(const Cheese& c) override {
-        dynamic_cast<CustomZapiekanka *>(zapiekanka)->setCheese(c);
+        dynamic_cast<CustomZapiekanka *>(zapiekanka.get())->setCheese(c);
     }
     void buildTopping(const Topping& t) override {
-        dynamic_cast<CustomZapiekanka *>(zapiekanka)->addTopping(t);
+        dynamic_cast<CustomZapiekanka *>(zapiekanka.get())->addTopping(t);
     }
 };
 

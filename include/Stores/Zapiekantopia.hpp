@@ -37,8 +37,7 @@ public:
 
         std::unique_ptr<Zapiekanka> zapiekanka;
         CustomZapiekankaBuilder builder;
-        Zapiekanka *za = m_director.makeCustomZapiekanka(builder,ingredients);
-        zapiekanka = std::make_unique<Zapiekanka>(*za);
+        zapiekanka = m_director.makeCustomZapiekanka(builder,ingredients);
 
         auto pos = std::find(m_zapiekanki.begin(),m_zapiekanki.end(), *zapiekanka);
         if (pos==m_zapiekanki.end()){

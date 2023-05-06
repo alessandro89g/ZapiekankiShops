@@ -5,7 +5,7 @@
 
 class Director {
 public:
-    Zapiekanka *makeCustomZapiekanka(CustomZapiekankaBuilder& builder,
+    std::unique_ptr<Zapiekanka> makeCustomZapiekanka(CustomZapiekankaBuilder& builder,
                                      const std::vector<std::unique_ptr<ZapiekankaOption>>& ingredients) {
         builder.buildZapiekanka(ingredients);
         return builder.getZapiekanka();

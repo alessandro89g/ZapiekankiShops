@@ -151,14 +151,13 @@ TEST(DIRECTOR, MAKEPIZZA) {
     ingredients.emplace_back(make_unique<GoudaCheese>());
     Director director;
     CustomZapiekankaBuilder builder;
-    Zapiekanka *zapiekanka = director.makeCustomZapiekanka(builder,ingredients);
+    unique_ptr<Zapiekanka> zapiekanka = director.makeCustomZapiekanka(builder,ingredients);
     CustomZapiekanka *test = new CustomZapiekanka;
     test->setCheese(GoudaCheese());
     test->setDough(ThinCrustDough());
 
-    ASSERT_EQ(test->getPrice(), zapiekanka->getPrice());
+    ASSERT_EQ(test->getPrice(), zapiekanka.get()->getPrice());
 
-    delete zapiekanka;
     delete test;
 }
 
