@@ -1,10 +1,17 @@
 #ifndef PLACNOWYSTORE_HPP
 #define PLACNOWYSTORE_HPP
 
+/*  Check the file ZapiekankaStore.hpp for most of the functionalities
+ *  implemented here.
+ *  Other functionalities are explained in the code below.
+ */
+
 #include "ZapiekankaStore.hpp"
 
 class PlacNowyStore : public ZapiekankaStore {
 public:
+    //  The constructor initializes the list of zapiekanki that the store sells
+    //  and the delivery price of the store.
     PlacNowyStore() {
         m_zapiekanki_available = {"Cheese", "Custom"};
         std::cout << "Plac Nowy Zapiekanka.\n\n";
@@ -15,7 +22,8 @@ public:
     int newOrder () override {
         m_zapiekanki.clear();
         m_n_zapiekanki.clear();
-        size_t answer;
+
+        size_t answer;  // This variable keeps the loop going until you enter 0
         do {
             std::cout << "Choose your zapiekanka:\n";
             for (size_t i=0; i<m_zapiekanki_available.size(); i++) {
@@ -23,6 +31,7 @@ public:
             }
             std::cout << "Insert the number or press 0 to finish your order: ";
             std::cin >> answer;
+// CONTINUE FROM HERE
             switch (answer) {
             case 1:
                 orderZapiekanka("Cheese");

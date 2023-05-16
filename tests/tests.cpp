@@ -45,7 +45,7 @@ TEST(ZAPIEKANKAFACTORY, CHEESE_ZAPIEKANKA) {
 
 TEST(PLACNOWYSTORE, CHEESE) {
     unique_ptr<ZapiekankaStore> store = make_unique<PlacNowyStore>();
-    optional<Zapiekanka> zapiekanka = store.get()->orderZapiekanka("Cheese");
+    optional<Zapiekanka> zapiekanka = store->orderZapiekanka("Cheese");
 
     Dough dough = ThickCrustDough();
     Cheese cheese = GoudaCheese();
@@ -60,7 +60,7 @@ TEST(PLACNOWYSTORE, CHEESE) {
 
 TEST(PLACNOWYSTORE, PEPPERONI) {
     unique_ptr<ZapiekankaStore> store = make_unique<PlacNowyStore>();
-    optional<Zapiekanka> zapiekanka = store.get()->orderZapiekanka("Zakopane");
+    optional<Zapiekanka> zapiekanka = store->orderZapiekanka("Zakopane");
 
     ASSERT_FALSE(zapiekanka.has_value());
 }
@@ -71,10 +71,10 @@ TEST(PLACNOWYSTORE, RETRIEVE_ORDER) {
 
     for (const string& zapiekanka : zapiekanki){
         cout << zapiekanka << "\n";
-        store.get()->orderZapiekanka(zapiekanka);
+        store->orderZapiekanka(zapiekanka);
     }
 
-    vector<Zapiekanka> order = store.get()->getOrderInfo();
+    vector<Zapiekanka> order = store->getOrderInfo();
     ASSERT_EQ(zapiekanki.size(), order.size());
 
     vector<string> zapiekanka_names = {"Cheese", "Cheese", "Cheese"};
@@ -88,7 +88,7 @@ TEST(PLACNOWYSTORE, RETRIEVE_ORDER) {
 
 TEST(WOLNICASTORE, PEPPERONI) {
     unique_ptr<ZapiekankaStore> store = make_unique<WolnicaStore>();
-    optional<Zapiekanka> zapiekanka = store.get()->orderZapiekanka("Zakopane");
+    optional<Zapiekanka> zapiekanka = store->orderZapiekanka("Zakopane");
 
     Dough dough = ThinCrustDough();
     Cheese cheese = OscypekCheese();
@@ -105,7 +105,7 @@ TEST(WOLNICASTORE, PEPPERONI) {
 
 TEST(WOLNICASTORE, CHEESE) {
     unique_ptr<ZapiekankaStore> store = make_unique<WolnicaStore>();
-    optional<Zapiekanka> zapiekanka = store.get()->orderZapiekanka("Cheese");
+    optional<Zapiekanka> zapiekanka = store->orderZapiekanka("Cheese");
     ASSERT_FALSE(zapiekanka.has_value());
 }
 
@@ -115,10 +115,10 @@ TEST(WOLNICASTORE, RETRIEVE_ORDER) {
 
     for (const string& zapiekanka : zapiekanki){
         cout << zapiekanka << "\n";
-        store.get()->orderZapiekanka(zapiekanka);
+        store->orderZapiekanka(zapiekanka);
     }
 
-    vector<Zapiekanka> order = store.get()->getOrderInfo();
+    vector<Zapiekanka> order = store->getOrderInfo();
     ASSERT_EQ(zapiekanki.size(), order.size());
 
     vector<string> zapiekanka_names = {"Zakopane", "Zakopane", "Zakopane"};
@@ -130,19 +130,19 @@ TEST(WOLNICASTORE, RETRIEVE_ORDER) {
 
 TEST(MEMENTO, UNDO) {
     unique_ptr<ZapiekankaStore> store = make_unique<WolnicaStore>();
-    store.get()->orderZapiekanka("Zakopane");
-    store.get()->orderZapiekanka("Zakopane");
-    store.get()->orderZapiekanka("Zakopane");
+    store->orderZapiekanka("Zakopane");
+    store->orderZapiekanka("Zakopane");
+    store->orderZapiekanka("Zakopane");
 
-    ASSERT_EQ(3, store.get()->getOrderInfo().size());
-    store.get()->cancelLastZapiekanka();
-    ASSERT_EQ(2, store.get()->getOrderInfo().size());
-    store.get()->cancelLastZapiekanka();
-    ASSERT_EQ(1, store.get()->getOrderInfo().size());
-    store.get()->cancelLastZapiekanka();
-    ASSERT_EQ(0, store.get()->getOrderInfo().size());
-    store.get()->cancelLastZapiekanka();
-    ASSERT_EQ(0, store.get()->getOrderInfo().size());
+    ASSERT_EQ(3, store->getOrderInfo().size());
+    store->cancelLastZapiekanka();
+    ASSERT_EQ(2, store->getOrderInfo().size());
+    store->cancelLastZapiekanka();
+    ASSERT_EQ(1, store->getOrderInfo().size());
+    store->cancelLastZapiekanka();
+    ASSERT_EQ(0, store->getOrderInfo().size());
+    store->cancelLastZapiekanka();
+    ASSERT_EQ(0, store->getOrderInfo().size());
 }
 
 TEST(DIRECTOR, MAKEPIZZA) {
@@ -156,7 +156,7 @@ TEST(DIRECTOR, MAKEPIZZA) {
     test->setCheese(GoudaCheese());
     test->setDough(ThinCrustDough());
 
-    ASSERT_EQ(test->getPrice(), zapiekanka.get()->getPrice());
+    ASSERT_EQ(test->getPrice(), zapiekanka->getPrice());
 
     delete test;
 }
