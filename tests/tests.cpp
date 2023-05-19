@@ -12,6 +12,10 @@ using namespace std;
 
 const int base_price = 15;
 
+/*  The first two tests test the class ZapiekankaFactory,
+ *  checking that the price and name of the Zapiekanka made using the class and
+ *  summing all the needed ingredients are equal and checking that the name corresponds.
+ */
 TEST(ZAPIEKANKAFACTORY, PEPPERONI) {
     ZakopaneZapiekanka zakopane= *static_cast<ZakopaneZapiekanka*>
                                   (ZapiekankaFactory::CreateZapiekanka("Zakopane").value().get());
@@ -43,6 +47,13 @@ TEST(ZAPIEKANKAFACTORY, CHEESE_ZAPIEKANKA) {
     ASSERT_EQ("Cheese", zakopane.getName());
 }
 
+
+/*  These three tests check for the store PlacNowy that
+ *      1) that the "Cheese" Zapiekanka from the store is
+ *          the same as adding the ingredients one by one.
+ *      2) the "Pepperoni" Zapiekanka does not exist in this store
+ *      3) The retrieve order method works
+ */
 TEST(PLACNOWYSTORE, CHEESE) {
     unique_ptr<ZapiekankaStore> store = make_unique<PlacNowyStore>();
     optional<Zapiekanka> zapiekanka = store->orderZapiekanka("Cheese");
@@ -85,7 +96,12 @@ TEST(PLACNOWYSTORE, RETRIEVE_ORDER) {
 }
 
 
-
+/*  These three tests check for the store Wolnica that
+ *      1) that the "Pepperoni" Zapiekanka from the store is
+ *          the same as adding the ingredients one by one.
+ *      2) the "Cheese" Zapiekanka does not exist in this store
+ *      3) The retrieve order method works
+ */
 TEST(WOLNICASTORE, PEPPERONI) {
     unique_ptr<ZapiekankaStore> store = make_unique<WolnicaStore>();
     optional<Zapiekanka> zapiekanka = store->orderZapiekanka("Zakopane");
@@ -128,6 +144,10 @@ TEST(WOLNICASTORE, RETRIEVE_ORDER) {
 
 }
 
+
+/*  This test checks the cancelLastZapiekanka method which relies on the
+ *  Memento and MementoTaker classes
+ */
 TEST(MEMENTO, UNDO) {
     unique_ptr<ZapiekankaStore> store = make_unique<WolnicaStore>();
     store->orderZapiekanka("Zakopane");
@@ -145,6 +165,9 @@ TEST(MEMENTO, UNDO) {
     ASSERT_EQ(0, store->getOrderInfo().size());
 }
 
+/*  This checks that the director made zapiekanka is the same as the one
+ *  prepared from scratch
+ */
 TEST(DIRECTOR, MAKEPIZZA) {
     std::vector<std::unique_ptr<ZapiekankaOption>> ingredients;
     ingredients.emplace_back(make_unique<ThinCrustDough>());

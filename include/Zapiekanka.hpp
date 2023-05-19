@@ -1,6 +1,22 @@
 #ifndef ZAPIEKANKA_H
 #define ZAPIEKANKA_H
 
+
+/*  This is the base class for all the different kind of Zapiekanka.
+ *  Each Zapiekanka has
+ *      name
+ *      basic price
+ *      type of dough
+ *      type of sauce
+ *      type of cheese
+ *      list of toppings
+ *  The method
+ *      info() returns a string with all the info about the Zapiekanka
+ *      addToppings() adds a Topping to the list
+ *      setCheese, setDough, setSauce are protected as they need to be "hidden"
+ *          in the subclasses, since they depend on the type of Zapiekanka
+ */
+
 #include <iostream>
 #include <vector>
 #include <set>

@@ -1,6 +1,10 @@
 #ifndef MEMENTOCARETAKER_HPP
 #define MEMENTOCARETAKER_HPP
 
+/*  As the names suggests, it takes care of saving and restoring the state
+ *  of the order. It contains the vector of Memento objects saved that can be restored.
+ */
+
 #include <vector>
 #include "Memento.hpp"
 

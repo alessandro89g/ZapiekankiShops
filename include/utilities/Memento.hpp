@@ -1,6 +1,12 @@
 #ifndef MEMENTO_HPP
 #define MEMENTO_HPP
 
+/*  This class holds the information of older and current state of the order, i.e.
+ *      the list of different zapiekanki
+ *      the number for each different zapiekanki
+ *      the timestamp of the state
+ */
+
 #include <iostream>
 #include <vector>
 #include <chrono>

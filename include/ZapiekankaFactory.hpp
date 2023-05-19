@@ -1,6 +1,11 @@
 #ifndef ZAPIEKANKAFACTORY_H
 #define ZAPIEKANKAFACTORY_H
 
+// Singleton pattern and Factory pattern
+/*  ZapiekankaFactory is a singleton class that has a method to create Zapiekankim, given the
+ *  string containing the type of Zapiekanka requested
+ */
+
 #include <memory>
 
 #include "Zapiekanka.hpp"
@@ -8,7 +13,6 @@
 #include "ZakopaneZapiekanka.hpp"
 #include "CustomZapiekanka.hpp"
 
-// Singleton pattern and Factory pattern
 
 class ZapiekankaFactory {
 public:

@@ -1,6 +1,12 @@
 #ifndef ZAPIEKANKABUILDER_H
 #define ZAPIEKANKABUILDER_H
 
+
+/*  The class ZapiekankaBuilder is an abstract class to prepare pizzas, it is used in this project by the
+ *  Director class using its implementation CustomZapiekankaBuilder.
+ *  Other implementation for other kind of pizzas could extend it..
+ */
+
 #include "Zapiekanka.hpp"
 #include "ZakopaneZapiekanka.hpp"
 #include "CheeseZapiekanka.hpp"
