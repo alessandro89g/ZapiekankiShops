@@ -127,7 +127,7 @@ private:
                 std::cout << "---->Choose your toppings (you can add more of the same type)\n"
                              "\t 1) Mushrooms\n"
                              "\t 2) Olives\n"
-                             "\t 3) Mozzarella\n"
+                             "\t 3) Boczek\n"
                              "\t 4) Salami\n";
                 std::cout << "Choose your option (if you want no more toppings, press 0): ";
                 std::cin >> answer;
