@@ -20,15 +20,19 @@ public:
     int newOrder () override {
         m_zapiekanki.clear();
         m_n_zapiekanki.clear();
-        size_t answer;
+        int answer;
         do {
             std::cout << "Choose your zapiekanka:\n";
             for (size_t i=0; i<m_zapiekanki_available.size(); i++) {
                 std::cout << "\t " << std::to_string(i+1) << ") " << m_zapiekanki_available[i] << "\n";
             }
-            std::cout << "Insert the number or press 0 to finish your order: ";
+            std::cout << "Insert the number or press 0 to finish your order or -1 to cancel last zapiekanka: ";
             std::cin >> answer;
             switch (answer) {
+            case -1:
+                cancelLastZapiekanka();
+                std::cout << "Cancelled last Zapiekanka ordered\n";
+                break;
             case 1:
                 orderZapiekanka("Zakopane");
                 break;
@@ -38,6 +42,8 @@ public:
             default:
                 break;
             }
+            if (answer==-1)
+                answer = 1;
         } while(answer<=m_zapiekanki_available.size() && answer >=1);
         showOrder();
         return m_n_zapiekanki.size();

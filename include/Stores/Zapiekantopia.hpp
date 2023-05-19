@@ -26,12 +26,17 @@ public:
     int newOrder () override {
         m_zapiekanki.clear();
         m_n_zapiekanki.clear();
-        size_t answer;
+        int answer;
         do {
-            std::cout << "Press 1 to build your (or another) zapiekanka or press 0 to finish your order: ";
+            std::cout << "Press 1 to build your (or another) zapiekanka, press 0 to finish your order or -1 to cancel last zapiekanka: ";
             std::cin >> answer;
             if (answer==1)
                 orderZapiekanka();
+            else if (answer==-1) {
+                cancelLastZapiekanka();
+                std::cout << "Cancelled last Zapiekanka ordered\n";
+                answer = 1;
+            }
         } while(answer==1);
         showOrder();
         return m_n_zapiekanki.size();
