@@ -1,5 +1,5 @@
-This project is a command line executable to mimic ordering Zapiekanka from one of three different stores.\ 
-The possible stores are:\ 
+This project is a command line executable to mimic ordering Zapiekanka from one of three different stores. 
+The possible stores are: 
       Plac Nowy Zapiekanka: it has two possible Zapiekanka you can order: 
             Cheese      - thick crust dough, marinara sauce, gouda cheese 
             Custom      - thick crust dough, plum tomato sauce, oscypek cheese  
