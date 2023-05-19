@@ -25,6 +25,10 @@ Compiling from inside the main directory (you need gtest to compile): <br/>
 &nbsp;&ensp;mkdir bin <br/> 
 &nbsp;&ensp;cmake -S . -B bin/ <br/> 
 &nbsp;&ensp; <br/> 
+&nbsp;&ensp;cd bin</br>
+&nbsp;&ensp;<br/>
+&nbsp;&ensp;make<br/>
+<br/>
 After compiling you will have two executables <br/> 
 &nbsp;&ensp;Zapiekanka:&nbsp;&ensp; the main program <br/> 
 &nbsp;&ensp;ZapiekankaTest:&ensp; the gTest 
