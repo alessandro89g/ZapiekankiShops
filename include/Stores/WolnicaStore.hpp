@@ -1,6 +1,11 @@
 #ifndef WOLNICASTORE_HPP
 #define WOLNICASTORE_HPP
 
+
+/*  Check the file ZapiekankaStore.hpp and PlacNowyStore for all of the functionalities
+ *  implemented here.
+ */
+
 #include "ZapiekankaStore.hpp"
 
 class WolnicaStore : public ZapiekankaStore {

@@ -31,12 +31,13 @@ public:
             }
             std::cout << "Insert the number or press 0 to finish your order: ";
             std::cin >> answer;
-// CONTINUE FROM HERE
             switch (answer) {
             case 1:
+                //From this store you can order only Cheese Zapiekanka
                 orderZapiekanka("Cheese");
                 break;
             case 2:
+                // ... and make a custom zapiekanka with specific fixed ingredients
                 orderZapiekanka("Custom");
                 break;
             default:
@@ -54,6 +55,7 @@ public:
         if (!zapiekanka_opt.has_value())
             return std::nullopt;
 
+        //  Here is how the custom zapiekanka is constructed
         if (type == "Custom") {
             std::unique_ptr<CustomZapiekanka> custom_zapiekanka
                 = std::unique_ptr<CustomZapiekanka>{static_cast<CustomZapiekanka*>(zapiekanka_opt.value().release())};
@@ -92,18 +94,21 @@ public:
             return std::nullopt;
         }
 
+        //  Check if we already ordered the same type of zapiekanka
         auto pos = std::find(m_zapiekanki.begin(),m_zapiekanki.end(), *zapiekanka);
         if (pos==m_zapiekanki.end()){
+            // if not, we add it to the list of different zapiekanki and we add 1 to its number order
             m_zapiekanki.push_back(*zapiekanka);
             m_n_zapiekanki.push_back(1);
         }
         else {
+            // else, we add 1 to the order of the same type
             m_n_zapiekanki[std::distance(m_zapiekanki.begin(),pos)]++;
         }
         std::cout << "\n\n"
                      "Ordered\n" << m_zapiekanki.back().info() << "\n\n";
         std::cout << "Total to pay: " << getOrderPrice() << "$ (" << m_delvery_price << " $ delivery).\n\n";
-        saveStatusOrder();
+        saveStatusOrder();  // we safe the order, in case we want to cancel this zapiekanka
         return *zapiekanka;
     }
 };

@@ -1,6 +1,13 @@
 #ifndef ZAPIEKANKAOPTION_H
 #define ZAPIEKANKAOPTION_H
 
+/*  This is the base class for all the ingredients for the Zapiekanka
+ *  Each ingredient has
+ *      name
+ *      price
+ *  and methods to compare the ingredients and return the name and price.
+ */
+
 #include <string>
 
 class ZapiekankaOption {

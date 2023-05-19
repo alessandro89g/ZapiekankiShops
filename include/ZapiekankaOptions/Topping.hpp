@@ -1,6 +1,10 @@
 #ifndef TOPPING_H
 #define TOPPING_H
 
+/*  Here we define the subclass Topping and all its subclasses,
+ *  i.e. all the different toppings we have as options
+ */
+
 #include "ZapiekankaOption.hpp"
 #include <string>
 

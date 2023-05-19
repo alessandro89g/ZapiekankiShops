@@ -1,6 +1,16 @@
 #ifndef ZAPIEKANKATOPIA_HPP
 #define ZAPIEKANKATOPIA_HPP
 
+
+/*  Check the file ZapiekankaStore.hpp for most of the functionalities
+ *  implemented here.
+ *  Other functionalities are explained in the code below.
+ *
+ *  This ZapiekankaStore has a director, who is able to create the zapiekanka
+ *  using all the ingredients asked by the costumer
+ *
+ */
+
 #include "ZapiekankaStore.hpp"
 #include "Director.hpp"
 
@@ -29,6 +39,9 @@ public:
 
     std::optional<Zapiekanka> orderZapiekanka(std::string type="Custom") override {
         std::vector<std::unique_ptr<ZapiekankaOption>> ingredients;
+
+        //  ingredients contains all the ingredients needed for the zapiekanka
+        //  the list of ingredients is build using the auxiliary methods "choose----"
         ingredients.emplace_back(chooseDough());
         ingredients.emplace_back(chooseSauce());
         ingredients.emplace_back(chooseCheese());
@@ -37,8 +50,11 @@ public:
 
         std::unique_ptr<Zapiekanka> zapiekanka;
         CustomZapiekankaBuilder builder;
+        //  Here comes the director that using the builder and the ingredients
+        //  builds the zapiekanka
         zapiekanka = m_director.makeCustomZapiekanka(builder,ingredients);
 
+        //  From now on, this is the same as for the other stores
         auto pos = std::find(m_zapiekanki.begin(),m_zapiekanki.end(), *zapiekanka);
         if (pos==m_zapiekanki.end()){
             m_zapiekanki.push_back(*zapiekanka);
